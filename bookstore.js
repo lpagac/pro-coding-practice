@@ -40,10 +40,11 @@ function getPrice(book) {
   let price;
 
   // handle monthly sale  
-  if (book.title === "The Bell Jar" && book.authors === ["Plath"])
+  if (book.title === "The Bell Jar" && book.authors[0] === "Plath") {
     price = 5.00;
-  else
+  }
+  else {
     price = 10.00;
-
+  }
   return price * (1 + SALES_TAX);
 }

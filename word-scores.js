@@ -1,28 +1,23 @@
 /** Takes array of words and returns an array of each word's scrabble score */
 
-function calculateWordScores(wordsArray) {
-  let wordScores = [];
-  
-	for (let word of wordsArray) {
-    
-    let score = 0;
-  
-    //if the word is an empty string, continue the loop and push 0 score to wordsArray.
-    if(word.length === 0) {
-      wordScores.push(0);
-      continue; 
-    } 
-     
+function calculateWordScores(words) {
+	const wordScores = [];
+	for (let word of words) {
+		word = word.toUpperCase();
+		let score = 0;
+		//if the word is an empty string, continue the loop and push 0 score to wordsArray.
+		if (word.length === 0) {
+			wordScores.push(0);
+			continue;
+		}
 		for (let letter of word) {
-
-      //if letter is an invalid character, set score to null, push to wordScores array and break the loop;
-      if(!LETTER_SCORES[letter.toUpperCase()]){
-        score = null;
-        break;
-      }
-      
-      score += LETTER_SCORES[letter.toUpperCase()];
-      
+			let letterScore = LETTER_SCORES[letter];
+			//if letter is an invalid character, set score to null, push to wordScores array and break the loop;
+			if (letterScore === undefined) {
+				score = null;
+				break;
+			}
+			score += letterScore;
 		}
 		wordScores.push(score);
 	}

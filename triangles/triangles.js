@@ -2,38 +2,62 @@
 
 function validateEdge(size) {
   return (Number.isInteger(size) &&
-      size >= 2 &&
-      size <= 50);
+    size >= 2 &&
+    size <= 50);
 }
 
+/**calculate area from two sides */
+
+function calculateArea(aSide, bSide) {
+  return (aSide * bSide) / 2;
+}
+
+/** calculate hypotenuse from two sides */
+
+function calculateHypotenuse(aSide, bSide) {
+  return Math.round(Math.sqrt((aSide * aSide) + (bSide * bSide)));
+}
+
+/** craft message from hypotenuse and area results */
+
+function craftMessage(area, hypotenuse) {
+  let message = `Hypotenuse is ${hypotenuse} and area is ${area}.`;
+  if (area > 50) {
+    message += ` That's a really big triangle!`;
+  }
+  return message;
+}
 
 /* Handle UI: get form data & update HTML */
 
 function processForm(evt) {
   evt.preventDefault();
-  let a = +document.getElementById("side-a").value;
-  let b = +document.getElementById("side-b").value;
+  const firstSide = +document.getElementById("side-a").value;
+  const secondSide = +document.getElementById("side-b").value;
 
-  let aOk = validateEdge(a);
-  let bOk = validateEdge(b);
+  const firstValid = validateEdge(firstSide);
+  const secondValid = validateEdge(secondSide);
 
-  let aMsg = aOk ? "" : "Invalid!";
-  let bMsg = bOk ? "" : "Invalid!";
+  let firstMessage = firstValid ? "" : "Invalid!";
+  let secondMessage = secondValid ? "" : "Invalid!";
 
-  let msg;
+  let outputMessage;
 
-  if (aOk && bOk) {
-    let area = a * b / 2;
-    let hypot = Math.floor(Math.sqrt(a * a + b * b));
-    let msg = `Hypotenuse is ${hypot} and area is ${area}.`;
-    if (area > 50) {
-      msg += ` That's a really big triangle!`;
-    }
+  if (firstValid && secondValid) {
+    const area = calculateArea(firstSide, secondSide);
+    const hypot = calculateHypotenuse(firstSide, secondSide);
+    outputMessage = craftMessage(area, hypot);
   } else {
-    msg = "";
+    outputMessage = "";
   }
 
-  document.getElementById("a-msg").innerHTML = aMsg;
-  document.getElementById("b-msg").innerHTML = bMsg;
-  document.getElementById("msg").innerHTML = msg;
+  document.getElementById("a-msg").innerHTML = firstMessage;
+  document.getElementById("b-msg").innerHTML = secondMessage;
+  document.getElementById("msg").innerHTML = outputMessage;
 }
+
+/** Form Submit Event Listener */
+
+document.getElementById("triangle-form").addEventListener(
+  "submit",
+  processForm);

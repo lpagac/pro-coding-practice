@@ -1,0 +1,3 @@
+function allDivisors(num) {
+
+}
